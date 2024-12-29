@@ -9,8 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 /*
 * This class serves to hold methods that create
 * all the controllers uses in our main view. This
@@ -20,15 +18,20 @@ import java.io.File;
 */
 
 public class ControllerService {
+
+    //this method will create all the frequency fields
+    //it takes an integer specifying how many you want
     public static void createFields(int num, GridPane gridPane) {
         //initializing frequency fields
         for(int i = 0; i < num; i++){
             TextField textField = new TextField(String.format("F%d",i+1));
             gridPane.add(textField,i,0);
-            gridPane.setHalignment(textField, HPos.CENTER);
+            GridPane.setHalignment(textField, HPos.CENTER);
         }
     }
 
+    //this method will create all the sliders
+    //it takes an integer specifying how many you want
     public static void createSliders(int num, GridPane gridPane) {
         //initializing sliders
         for(int i = 0; i<num;i++){
@@ -47,6 +50,7 @@ public class ControllerService {
         }
     }
 
+    //this method creates the choose file button
     public static Button createChooseFileButton() {
         //creating file extensions
         FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("FLAC Files","*.flac");
@@ -61,12 +65,14 @@ public class ControllerService {
         return chooseFile;
     }
 
+    //this method is the event handler of clicking the
+    //choose file button. prompts user to choose a file
     private static void promptChooseFile(FileChooser.ExtensionFilter ex1, FileChooser.ExtensionFilter ex2, Stage stage) {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Choosing Audio File...");
         fileChooser.getExtensionFilters().addAll(ex1,ex2);
 
-        File selectedFile = fileChooser.showOpenDialog(stage);
+        MainView.setSelectedFile(fileChooser.showOpenDialog(stage));
     }
 }

@@ -6,8 +6,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
+import java.io.File;
+
 public class MainView {
+
+    //main layout which will contain all other
+    //controllers
     private VBox vbox;
+
+    //file object containing file selected by the
+    //user, will probably be needed later
+    private static File selectedFile;
+
+    //returns the main vbox that defines the layout
+    //to MainApp.java
     public static VBox getLayout(){
         //creating the layout
         VBox vbox = new VBox();
@@ -36,9 +48,22 @@ public class MainView {
         //creating the choose file button
         Button chooseFile = ControllerService.createChooseFileButton();
 
-
-
+        //attached the choosefile button and gridpane
+        //containing sliders and frequency fields to main vbox
         vbox.getChildren().addAll(chooseFile,gridPane);
+
+        //returns completed layout
         return vbox;
+    }
+
+    //allows us to set the File object in other classes
+    public static void setSelectedFile(File file){
+        selectedFile = file;
+    }
+
+    //allows us to utilize the selected File object in
+    //other classes
+    public static File getSelectedFile(File file){
+        return selectedFile;
     }
 }
