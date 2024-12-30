@@ -62,6 +62,8 @@ public class ViewController {
 
         //creating a button to choose files
         Button chooseFile = new Button("Choose File");
+        chooseFile.maxWidth(100);
+        chooseFile.prefWidth(100);
 
         //assigning chooseFile a designated eventHandler
         chooseFile.setOnAction(new ChooseFileEventHandler(chooseFile));
@@ -120,7 +122,7 @@ public class ViewController {
         volumeSlider.setMax(120);
         volumeSlider.setMin(0);
         volumeSlider.setValue(100);
-        volumeSlider.setBlockIncrement(5);
+        volumeSlider.setBlockIncrement(0.1f);
         volumeSlider.setMajorTickUnit(10);
         volumeSlider.setShowTickLabels(true);
         volumeSlider.setShowTickMarks(true);
