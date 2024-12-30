@@ -11,10 +11,6 @@ import java.io.File;
 
 public class MainView {
 
-    //main layout which will contain all other
-    //controllers
-    private VBox vbox;
-
     //file object containing file selected by the
     //user, will probably be needed later
     private static File selectedFile;
@@ -67,6 +63,7 @@ public class MainView {
     //allows us to set the File object in other classes
     public static void setSelectedFile(File file){
         selectedFile = file;
+        AudioPlayer.filePath = file.getPath();
     }
 
     //allows us to utilize the selected File object in
