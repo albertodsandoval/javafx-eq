@@ -22,7 +22,9 @@ import java.io.IOException;
 * and the add button to add another band.
 */
 
-public class ControllerService {
+public class ViewController {
+
+    static AudioPlayer audioPlayer;
 
     //this method will create all the frequency fields
     //it takes an integer specifying how many you want
@@ -57,38 +59,41 @@ public class ControllerService {
 
     //this method creates the choose file button
     public static Button createChooseFileButton() {
-        //creating file extensions
-        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("FLAC Files","*.aiff");
-        FileChooser.ExtensionFilter ex2 = new FileChooser.ExtensionFilter("MP3 Files","*.mp3");
-        FileChooser.ExtensionFilter ex3 = new FileChooser.ExtensionFilter("AIFF Files","*.aiff");
 
 
         //creating a button to choose files
         Button chooseFile = new Button("Choose File");
 
-        //handling add file button click
-        chooseFile.setOnAction(e -> promptChooseFile(ex1,ex2,ex3, MainApp.getStage()));
+        //assigning chooseFile a designated eventHandler
+        chooseFile.setOnAction(new ChooseFilerEventHandler());
 
         return chooseFile;
     }
 
-    //this method is the event handler of clicking the
-    //choose file button. prompts user to choose a file
-    private static void promptChooseFile(FileChooser.ExtensionFilter ex1, FileChooser.ExtensionFilter ex2, FileChooser.ExtensionFilter ex3, Stage stage) {
-        FileChooser fileChooser = new FileChooser();
+    public static Button createPlayButton() {
 
-        fileChooser.setTitle("Choosing Audio File...");
-        fileChooser.getExtensionFilters().addAll(ex1,ex2);
+        //creating play button
+        Button playButton = new Button("▶");
 
-        File selectedFile = fileChooser.showOpenDialog(stage);
+        //sets the action of play button to be "play"
+        //but then changes its behavior to "resume" after
+        playButton.setOnAction(e -> {
+            audioPlayer.play();
+            playButton.setOnAction((ev->audioPlayer.resume()));
+        });
 
-        MainView.setSelectedFile(selectedFile);
+        return playButton;
 
-        AudioPlayer.setFilePath(selectedFile.getPath());
     }
 
-    public static void initialPlay() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        AudioPlayer audioPlayer = new AudioPlayer();
-        audioPlayer.play();
+    public static Button createPauseButton() {
+        Button pauseButton = new Button("❚❚");
+        pauseButton.setOnAction(e -> audioPlayer.pause());
+        return pauseButton;
     }
+
+    public static void setAudioPlayer(AudioPlayer audioPlayerToBeSet){
+        audioPlayer = audioPlayerToBeSet;
+    }
+
 }

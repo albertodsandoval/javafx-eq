@@ -7,7 +7,7 @@ import java.io.IOException;
 public class AudioPlayer {
 
     // to store current position
-    Long currentFrame;
+    static Long currentFrame;
     static Clip clip;
 
     // current status of clip
@@ -35,15 +35,30 @@ public class AudioPlayer {
 
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-    public static void play() {
+    public void play() {
         //start the clip
         clip.start();
 
         status = "play";
     }
 
-    public static void setFilePath(String s){
+    public void setFilePath(String s){
         filePath = s;
     }
 
+    public void pause() {
+        if (status.equals("paused"))
+        {
+            System.out.println("audio is already paused");
+            return;
+        }
+        currentFrame =
+                clip.getMicrosecondPosition();
+        clip.stop();
+        status = "paused";
+    }
+
+    public void resume(){
+
+    }
 }
