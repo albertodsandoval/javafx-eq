@@ -2,14 +2,17 @@ package org.example;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.IOException;
 
-public class ChooseFilerEventHandler implements EventHandler<ActionEvent> {
+public class ChooseFileEventHandler implements EventHandler<ActionEvent> {
+    private Button button;
+    public ChooseFileEventHandler(Button button) {
+        this.button = button;
+    }
+
     @Override
     public void handle(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
@@ -22,5 +25,7 @@ public class ChooseFilerEventHandler implements EventHandler<ActionEvent> {
         MainView.setSelectedFile(selectedFile);
 
         AudioPlayer.filePath = selectedFile.getPath();
+
+        button.setText(selectedFile.getName());
     }
 }

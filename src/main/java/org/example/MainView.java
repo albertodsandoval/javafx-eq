@@ -2,6 +2,7 @@ package org.example;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
@@ -46,11 +47,13 @@ public class MainView {
         Button chooseFileButton = ViewController.createChooseFileButton();
         Button playButton = ViewController.createPlayButton();
         Button pauseButton = ViewController.createPauseButton();
+        Slider volumeSlider = ViewController.createVolumeSlider();
 
 
         //creating an HBox containing both chooseFile button and play button
         HBox topSection = new HBox();
-        topSection.getChildren().addAll(chooseFileButton,playButton,pauseButton);
+        topSection.getChildren().addAll(chooseFileButton,playButton,pauseButton, volumeSlider);
+        topSection.setSpacing(25);
 
         //attached the choosefile button and gridpane
         //containing sliders and frequency fields to main vbox

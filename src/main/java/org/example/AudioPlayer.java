@@ -18,6 +18,8 @@ public class AudioPlayer {
     // file path
     static String filePath;
 
+    static FloatControl gainControl;
+
     // constructor to initialize streams and clip
     public AudioPlayer()
             throws UnsupportedAudioFileException,
@@ -34,7 +36,20 @@ public class AudioPlayer {
         clip.open(audioInputStream);
 
         clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        gainControl.setValue(6.0206f);
     }
+
+    public static void adjustVolume(Float newValue) {
+        Float adjustedVolume = 6.0206f * (newValue/100);
+
+        System.out.println(adjustedVolume);
+
+        gainControl.setValue(adjustedVolume);
+    }
+
     public void play() {
         //start the clip
         clip.start();

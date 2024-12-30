@@ -1,17 +1,16 @@
 package org.example;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
 import java.io.IOException;
 
 /*
@@ -65,7 +64,7 @@ public class ViewController {
         Button chooseFile = new Button("Choose File");
 
         //assigning chooseFile a designated eventHandler
-        chooseFile.setOnAction(new ChooseFilerEventHandler());
+        chooseFile.setOnAction(new ChooseFileEventHandler(chooseFile));
 
         return chooseFile;
     }
@@ -117,4 +116,17 @@ public class ViewController {
         audioPlayer = audioPlayerToBeSet;
     }
 
+    public static Slider createVolumeSlider() {
+        Slider volumeSlider = new Slider();
+        volumeSlider.setMax(100);
+        volumeSlider.setMin(0);
+        volumeSlider.setValue(100);
+        volumeSlider.setBlockIncrement(5);
+        volumeSlider.setMajorTickUnit(10);
+        volumeSlider.setShowTickLabels(true);
+        volumeSlider.setShowTickMarks(true);
+        volumeSlider.setPrefWidth(300);
+        volumeSlider.valueProperty().addListener(new VolumeSliderChangeListener());
+        return volumeSlider;
+    }
 }
