@@ -112,13 +112,12 @@ public class ViewController {
         return pauseButton;
     }
 
-    public static void setAudioPlayer(AudioPlayer audioPlayerToBeSet){
-        audioPlayer = audioPlayerToBeSet;
-    }
-
+    //creates a volume slider with the appropriate features
+    //returns the slide
     public static Slider createVolumeSlider() {
         Slider volumeSlider = new Slider();
-        volumeSlider.setMax(100);
+
+        volumeSlider.setMax(120);
         volumeSlider.setMin(0);
         volumeSlider.setValue(100);
         volumeSlider.setBlockIncrement(5);
@@ -126,7 +125,10 @@ public class ViewController {
         volumeSlider.setShowTickLabels(true);
         volumeSlider.setShowTickMarks(true);
         volumeSlider.setPrefWidth(300);
+
+        //adds dedicated change listener
         volumeSlider.valueProperty().addListener(new VolumeSliderChangeListener());
+
         return volumeSlider;
     }
 }

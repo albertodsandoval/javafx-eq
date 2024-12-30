@@ -39,14 +39,22 @@ public class AudioPlayer {
 
         gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-        gainControl.setValue(6.0206f);
+        gainControl.setValue(0f);
     }
 
-    public static void adjustVolume(Float newValue) {
-        Float adjustedVolume = 6.0206f * (newValue/100);
-
-        System.out.println(adjustedVolume);
-
+    //methods that transcribes the value from the slider
+    //into a reasonable float value input
+    //slider has a max value of 120, 20 of its units
+    //go over the default volume range
+    //the range of float values that can represent values is
+    //-80 - 6, which makes the length of the interval
+    //86. if we take the percent value of the slider
+    //aka slidervalue/120, and multiply it by the 86 float
+    //value, we get a float that represents a value in the interval
+    //to center the value, we subtract 80f
+    public static void adjustVolume(Float sliderValue) {
+        Float adjustedVolume = 86f * (sliderValue/120);
+        adjustedVolume -= 80f;
         gainControl.setValue(adjustedVolume);
     }
 
