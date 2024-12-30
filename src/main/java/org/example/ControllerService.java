@@ -9,6 +9,11 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
+import java.io.IOException;
+
 /*
 * This class serves to hold methods that create
 * all the controllers uses in our main view. This
@@ -53,26 +58,37 @@ public class ControllerService {
     //this method creates the choose file button
     public static Button createChooseFileButton() {
         //creating file extensions
-        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("FLAC Files","*.flac");
+        FileChooser.ExtensionFilter ex1 = new FileChooser.ExtensionFilter("FLAC Files","*.aiff");
         FileChooser.ExtensionFilter ex2 = new FileChooser.ExtensionFilter("MP3 Files","*.mp3");
+        FileChooser.ExtensionFilter ex3 = new FileChooser.ExtensionFilter("AIFF Files","*.aiff");
+
 
         //creating a button to choose files
         Button chooseFile = new Button("Choose File");
 
         //handling add file button click
-        chooseFile.setOnAction(e -> promptChooseFile(ex1,ex2, MainApp.getStage()));
+        chooseFile.setOnAction(e -> promptChooseFile(ex1,ex2,ex3, MainApp.getStage()));
 
         return chooseFile;
     }
 
     //this method is the event handler of clicking the
     //choose file button. prompts user to choose a file
-    private static void promptChooseFile(FileChooser.ExtensionFilter ex1, FileChooser.ExtensionFilter ex2, Stage stage) {
+    private static void promptChooseFile(FileChooser.ExtensionFilter ex1, FileChooser.ExtensionFilter ex2, FileChooser.ExtensionFilter ex3, Stage stage) {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Choosing Audio File...");
         fileChooser.getExtensionFilters().addAll(ex1,ex2);
 
-        MainView.setSelectedFile(fileChooser.showOpenDialog(stage));
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        MainView.setSelectedFile(selectedFile);
+
+        AudioPlayer.setFilePath(selectedFile.getPath());
+    }
+
+    public static void initialPlay() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        AudioPlayer audioPlayer = new AudioPlayer();
+        audioPlayer.play();
     }
 }

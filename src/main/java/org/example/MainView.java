@@ -3,10 +3,14 @@ package org.example;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.IOException;
 
 public class MainView {
 
@@ -43,14 +47,34 @@ public class MainView {
 
         //add button to add a new slider
         Button addButton = new Button("+");
+
+        //added add button to gridpane
         gridPane.add(addButton,gridPane.getColumnCount(),1);
 
         //creating the choose file button
         Button chooseFile = ControllerService.createChooseFileButton();
 
+        //creating play button
+        Button playButton = new Button("▶");
+        playButton.setOnAction(e -> {
+            try {
+                ControllerService.initialPlay();
+            } catch (UnsupportedAudioFileException ex) {
+                throw new RuntimeException(ex);
+            } catch (LineUnavailableException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        //creating an HBox containing both chooseFile button and play button
+        HBox topSection = new HBox();
+        topSection.getChildren().addAll(chooseFile,playButton);
+
         //attached the choosefile button and gridpane
         //containing sliders and frequency fields to main vbox
-        vbox.getChildren().addAll(chooseFile,gridPane);
+        vbox.getChildren().addAll(topSection,gridPane);
 
         //returns completed layout
         return vbox;
@@ -63,7 +87,7 @@ public class MainView {
 
     //allows us to utilize the selected File object in
     //other classes
-    public static File getSelectedFile(File file){
+    public static File getSelectedFile(){
         return selectedFile;
     }
 }
