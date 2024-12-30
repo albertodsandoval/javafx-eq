@@ -58,7 +58,23 @@ public class AudioPlayer {
         status = "paused";
     }
 
-    public void resume(){
+    public void resume() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        if (status.equals("play"))
+        {
+            System.out.println("Audio is already "+
+                    "being played");
+            return;
+        }
+        clip.close();
+        resetAudioStream();
+        clip.setMicrosecondPosition(currentFrame);
+        this.play();
+    }
 
+    private void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        audioInputStream = AudioSystem.getAudioInputStream(
+                new File(filePath).getAbsoluteFile());
+        clip.open(audioInputStream);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

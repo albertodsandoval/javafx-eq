@@ -78,8 +78,26 @@ public class ViewController {
         //sets the action of play button to be "play"
         //but then changes its behavior to "resume" after
         playButton.setOnAction(e -> {
+            try {
+                audioPlayer = new AudioPlayer();
+                System.out.println("Break");
+            } catch (UnsupportedAudioFileException
+                     | IOException
+                     | LineUnavailableException exception) {
+                throw new RuntimeException(exception);
+            }
+            System.out.println("Playing audio");
             audioPlayer.play();
-            playButton.setOnAction((ev->audioPlayer.resume()));
+            playButton.setOnAction((ev->{
+                try {
+                    audioPlayer.resume();
+                } catch (UnsupportedAudioFileException
+                         | LineUnavailableException
+                         | IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                System.out.println("Resuming audio at "+ AudioPlayer.currentFrame);
+            }));
         });
 
         return playButton;
@@ -88,7 +106,10 @@ public class ViewController {
 
     public static Button createPauseButton() {
         Button pauseButton = new Button("❚❚");
-        pauseButton.setOnAction(e -> audioPlayer.pause());
+        pauseButton.setOnAction(e -> {
+            audioPlayer.pause();
+            System.out.println("Pausing audio");
+        });
         return pauseButton;
     }
 

@@ -21,16 +21,6 @@ public class ChooseFilerEventHandler implements EventHandler<ActionEvent> {
 
         MainView.setSelectedFile(selectedFile);
 
-
-        try {
-            ViewController.setAudioPlayer(new AudioPlayer());
-            System.out.println("Break");
-        } catch (UnsupportedAudioFileException
-                 | IOException
-                 | LineUnavailableException e) {
-            throw new RuntimeException(e);
-        }
-
-        ViewController.audioPlayer.setFilePath(selectedFile.getPath());
+        AudioPlayer.filePath = selectedFile.getPath();
     }
 }
