@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="faea280b-4449-4917-9536-e891e2d9ebc0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/PCMConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/AudioPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ChooseFileEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ChooseFileEventHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/MainView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/VolumeSliderChangeListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/VolumeSliderChangeListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PCMConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PCMConverter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,25 +32,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
-      <command value="mvn javafx:run" />
       <command value="mvn clean install" />
+      <command value="mvn javafx:run" />
     </option>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="89da6066-a714-4808-bd46-10ceaf7e09c8" name="Changes" comment="" />
+      <changelist id="faea280b-4449-4917-9536-e891e2d9ebc0" name="Changes" comment="" />
       <created>1735611225139</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

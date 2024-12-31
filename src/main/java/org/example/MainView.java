@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainView {
 
@@ -51,11 +53,13 @@ public class MainView {
         Slider volumeSlider = ViewController.createVolumeSlider();
         Button readStream = new Button("Read stream");
         readStream.setOnAction(e-> {
+            ArrayList<Double> convertedPCM;
             try {
-                AudioPlayer.read();
+                convertedPCM = PCMConverter.convert();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+            System.out.println(convertedPCM.toArray().length);
         });
 
 
