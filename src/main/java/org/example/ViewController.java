@@ -62,8 +62,8 @@ public class ViewController {
 
         //creating a button to choose files
         Button chooseFile = new Button("Choose File");
-        chooseFile.maxWidth(100);
-        chooseFile.prefWidth(100);
+        chooseFile.maxWidth(50);
+        chooseFile.prefWidth(50);
 
         //assigning chooseFile a designated eventHandler
         chooseFile.setOnAction(new ChooseFileEventHandler(chooseFile));

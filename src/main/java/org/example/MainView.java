@@ -9,6 +9,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.io.IOException;
 
 public class MainView {
 
@@ -48,11 +49,19 @@ public class MainView {
         Button playButton = ViewController.createPlayButton();
         Button pauseButton = ViewController.createPauseButton();
         Slider volumeSlider = ViewController.createVolumeSlider();
+        Button readStream = new Button("Read stream");
+        readStream.setOnAction(e-> {
+            try {
+                AudioPlayer.read();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
 
         //creating an HBox containing both chooseFile button and play button
         HBox topSection = new HBox();
-        topSection.getChildren().addAll(chooseFileButton,playButton,pauseButton, volumeSlider);
+        topSection.getChildren().addAll(chooseFileButton,playButton,pauseButton, volumeSlider,readStream);
         topSection.setSpacing(25);
 
         //attached the choosefile button and gridpane
