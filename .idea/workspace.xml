@@ -7,9 +7,6 @@
     <list default="true" id="faea280b-4449-4917-9536-e891e2d9ebc0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/AudioPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ChooseFileEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ChooseFileEventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PCMConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PCMConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ViewController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

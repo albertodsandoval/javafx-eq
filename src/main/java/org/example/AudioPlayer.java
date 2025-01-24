@@ -23,8 +23,10 @@ public class AudioPlayer {
     // file path
     static String filePath;
 
+    //used to control master volume
     static FloatControl gainControl;
 
+    //specifies status
     volatile static boolean isPaused;
 
     // constructor to initialize streams and clip
@@ -32,10 +34,9 @@ public class AudioPlayer {
             throws UnsupportedAudioFileException,
             IOException, LineUnavailableException, InterruptedException {
 
-        System.out.println("Audio Player constructor hit");
+        //initialized to paused, user must play
         isPaused = true;
 
-        // create AudioInputStream object
         audioInputStream =
                 AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
 
@@ -79,8 +80,11 @@ public class AudioPlayer {
                     break;
                 }
 
+                System.out.println(currentBytesRead);
+
                 synchronized (this){
                     while (isPaused){
+                        System.out.println("waiting");
                         try {
                             wait();
                         } catch (InterruptedException e) {
@@ -93,6 +97,8 @@ public class AudioPlayer {
 
                 sourceDataLine.write(buffer,0,currentBytesRead);
             }
+            System.out.println("While terminated");
+
         });
 
         System.out.println("Thread created");
@@ -126,13 +132,28 @@ public class AudioPlayer {
 
 
     public void play() {
-        isPaused = false;
+
+        synchronized (this){
+            isPaused = false;
+
+            //pings the playbackThread
+            notifyAll();
+        }
 
         status = "play";
+
     }
 
     public void pause() {
-        isPaused = true;
+
+        synchronized (this){
+            isPaused = true;
+
+            //pings the playbackThread
+            notifyAll();
+        }
+
         status = "paused";
+
     }
 }
