@@ -13,7 +13,7 @@ public class PCMConverter {
         while ((bytesRead = AudioPlayer.audioInputStream.read(buffer)) != -1) {
             double[] chunk = convertToPCM(buffer,bytesRead,AudioPlayer.audioInputStream.getFormat());
             for(double sample : chunk){
-                pcmData.add(sample);
+                System.out.println(sample);
             }
         }
         return pcmData;

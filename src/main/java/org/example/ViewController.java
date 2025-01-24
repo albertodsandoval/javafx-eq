@@ -9,9 +9,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 
 /*
 * This class serves to hold methods that create
@@ -79,26 +76,8 @@ public class ViewController {
         //sets the action of play button to be "play"
         //but then changes its behavior to "resume" after
         playButton.setOnAction(e -> {
-            try {
-                audioPlayer = new AudioPlayer();
-                System.out.println("Break");
-            } catch (UnsupportedAudioFileException
-                     | IOException
-                     | LineUnavailableException exception) {
-                throw new RuntimeException(exception);
-            }
             System.out.println("Playing audio");
             audioPlayer.play();
-            playButton.setOnAction((ev->{
-                try {
-                    audioPlayer.resume();
-                } catch (UnsupportedAudioFileException
-                         | LineUnavailableException
-                         | IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                System.out.println("Resuming audio at "+ AudioPlayer.currentFrame);
-            }));
         });
 
         return playButton;

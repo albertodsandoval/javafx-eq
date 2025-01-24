@@ -4,14 +4,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 import javax.sound.sampled.*;
+import javax.xml.transform.Source;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AudioPlayer {
 
     // to store current position
     static Long currentFrame;
-    static Clip clip;
+    static SourceDataLine sourceDataLine;
 
     // current status of clip
     static String status;
@@ -23,24 +25,85 @@ public class AudioPlayer {
 
     static FloatControl gainControl;
 
+    volatile static boolean isPaused;
+
     // constructor to initialize streams and clip
     public AudioPlayer()
             throws UnsupportedAudioFileException,
-            IOException, LineUnavailableException
-    {
+            IOException, LineUnavailableException, InterruptedException {
+
+        System.out.println("Audio Player constructor hit");
+        isPaused = true;
+
         // create AudioInputStream object
         audioInputStream =
                 AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
 
+        AudioFormat format = audioInputStream.getFormat();
+
+        //specifies the type of data line, source data line with chosen format
+        DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+
+        System.out.println("Data line info caught");
+
+
         // create clip reference
-        clip = AudioSystem.getClip();
+         sourceDataLine = (SourceDataLine) AudioSystem.getLine(info);
 
         // open audioInputStream to the clip
-        clip.open(audioInputStream);
+        sourceDataLine.open(format);
 
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        System.out.println("Data line opened");
 
-        gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+        sourceDataLine.start();
+
+        System.out.println("Data line started");
+
+        byte[] buffer = new byte[1024];
+
+        final AtomicInteger bytesRead = new AtomicInteger(0);
+
+        System.out.println("Atomic int created");
+
+
+        Thread playbackThread = new Thread(()->{
+            while(true) {
+                int currentBytesRead;
+                try {
+                    currentBytesRead = audioInputStream.read(buffer);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (currentBytesRead == -1) {
+                    break;
+                }
+
+                synchronized (this){
+                    while (isPaused){
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+                bytesRead.set(currentBytesRead); // Atomic update
+
+                sourceDataLine.write(buffer,0,currentBytesRead);
+            }
+        });
+
+        System.out.println("Thread created");
+
+        playbackThread.start();
+
+        System.out.println("Thread started");
+
+        System.out.println("Thread NOT joined LOL");
+
+        gainControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
 
         gainControl.setValue(0f);
     }
@@ -61,82 +124,15 @@ public class AudioPlayer {
         gainControl.setValue(adjustedVolume);
     }
 
-    public static void read() throws IOException {
-        AudioFormat format = audioInputStream.getFormat();
-
-        int bytesPerFrame = format.getFrameSize();
-        int sampleSizeInBits = format.getSampleSizeInBits();
-        int channels = format.getChannels();
-        boolean isBigEndian = format.isBigEndian();
-
-        byte[] buffer = new byte[bytesPerFrame * 1024]; // Read 1024 frames at a time
-        int bytesRead;
-
-        while ((bytesRead = audioInputStream.read(buffer)) != -1) {
-            for (int i = 0; i < bytesRead; i += bytesPerFrame) {
-                // Process each frame
-                for (int channel = 0; channel < channels; channel++) {
-                    int sampleIndex = i + channel * (sampleSizeInBits / 8);
-
-                    int sampleValue;
-                    if (sampleSizeInBits == 16) {
-                        if (isBigEndian) {
-                            sampleValue = (buffer[sampleIndex] << 8) | (buffer[sampleIndex + 1] & 0xFF);
-                        } else {
-                            sampleValue = (buffer[sampleIndex + 1] << 8) | (buffer[sampleIndex] & 0xFF);
-                        }
-                    } else if (sampleSizeInBits == 8) {
-                        sampleValue = buffer[sampleIndex]; // 8-bit is often unsigned
-                    } else {
-                        throw new UnsupportedOperationException("Unsupported sample size: " + sampleSizeInBits);
-                    }
-
-                    System.out.println("Channel " + channel + ": " + sampleValue);
-                }
-            }
-        }
-    }
 
     public void play() {
-        //start the clip
-        clip.start();
+        isPaused = false;
 
         status = "play";
     }
 
-    public void setFilePath(String s){
-        filePath = s;
-    }
-
     public void pause() {
-        if (status.equals("paused"))
-        {
-            System.out.println("audio is already paused");
-            return;
-        }
-        currentFrame =
-                clip.getMicrosecondPosition();
-        clip.stop();
+        isPaused = true;
         status = "paused";
-    }
-
-    public void resume() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        if (status.equals("play"))
-        {
-            System.out.println("Audio is already "+
-                    "being played");
-            return;
-        }
-        clip.close();
-        resetAudioStream();
-        clip.setMicrosecondPosition(currentFrame);
-        this.play();
-    }
-
-    private void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        audioInputStream = AudioSystem.getAudioInputStream(
-                new File(filePath).getAbsoluteFile());
-        clip.open(audioInputStream);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }
