@@ -13,7 +13,7 @@ public class MainApp extends Application {
     //here is where you define your GUI
     @Override
     public void start(Stage stage) {
-        this.mainStage = stage;
+        mainStage = stage;
 
         //delegates creation of layout to MainView.java
         VBox vbox = MainView.getLayout();

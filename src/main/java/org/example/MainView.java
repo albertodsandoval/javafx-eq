@@ -9,9 +9,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class MainView {
 
@@ -29,7 +26,7 @@ public class MainView {
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(50));
 
-        //creating new gridpane layout for
+        //creating new grid pane layout for
         //input fields above sliders and sliders
         GridPane midSection = new GridPane();
         midSection.getRowConstraints()
@@ -51,21 +48,11 @@ public class MainView {
         Button playButton = ViewController.createPlayButton();
         Button pauseButton = ViewController.createPauseButton();
         Slider volumeSlider = ViewController.createVolumeSlider();
-        Button readStream = new Button("Read stream");
-        readStream.setOnAction(e-> {
-            ArrayList<Double> convertedPCM;
-            try {
-                convertedPCM = PCMConverter.convert();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            System.out.println(convertedPCM.toArray().length);
-        });
 
 
         //creating an HBox containing both chooseFile button and play button
         HBox topSection = new HBox();
-        topSection.getChildren().addAll(chooseFileButton,playButton,pauseButton, volumeSlider,readStream);
+        topSection.getChildren().addAll(chooseFileButton,playButton,pauseButton, volumeSlider);
         topSection.setSpacing(25);
 
         //attached the choosefile button and gridpane
@@ -80,11 +67,5 @@ public class MainView {
     public static void setSelectedFile(File file){
         selectedFile = file;
         AudioPlayer.filePath = file.getPath();
-    }
-
-    //allows us to utilize the selected File object in
-    //other classes
-    public static File getSelectedFile(){
-        return selectedFile;
     }
 }

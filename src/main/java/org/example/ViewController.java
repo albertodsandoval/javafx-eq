@@ -1,7 +1,5 @@
 package org.example;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
@@ -49,7 +47,7 @@ public class ViewController {
             slider.setShowTickLabels(true);
             slider.setSnapToTicks(true);
             gridPane.add(slider,i,1);
-            gridPane.setHalignment(slider,HPos.CENTER);
+            GridPane.setHalignment(slider,HPos.CENTER);
         }
     }
 
@@ -75,7 +73,7 @@ public class ViewController {
 
         //sets the action of play button to be "play"
         //but then changes its behavior to "resume" after
-        playButton.setOnAction(e -> {
+        playButton.setOnAction(_ -> {
             System.out.println("Playing audio");
             audioPlayer.play();
         });
@@ -86,7 +84,7 @@ public class ViewController {
 
     public static Button createPauseButton() {
         Button pauseButton = new Button("❚❚");
-        pauseButton.setOnAction(e -> {
+        pauseButton.setOnAction(_ -> {
             audioPlayer.pause();
             System.out.println("Pausing audio");
         });

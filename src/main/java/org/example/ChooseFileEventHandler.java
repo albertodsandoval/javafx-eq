@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ChooseFileEventHandler implements EventHandler<ActionEvent> {
-    private Button button;
+    private final Button button;
     public ChooseFileEventHandler(Button button) {
         this.button = button;
     }
@@ -22,7 +22,7 @@ public class ChooseFileEventHandler implements EventHandler<ActionEvent> {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Choosing Audio File...");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AIFF Files","*.aiff"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("AIFF Files","*.aiff"),new FileChooser.ExtensionFilter("WAV Files","*.wav"));
 
         File selectedFile = fileChooser.showOpenDialog(MainApp.getStage());
 
