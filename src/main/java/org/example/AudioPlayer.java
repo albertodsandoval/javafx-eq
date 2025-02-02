@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.lang.Math.pow;
+
 
 public class AudioPlayer {
 
@@ -27,6 +29,8 @@ public class AudioPlayer {
     //specifies status
     volatile static boolean isPaused;
 
+    static double frequency;
+
     // constructor to initialize streams and clip
     public AudioPlayer()
             throws UnsupportedAudioFileException,
@@ -39,6 +43,8 @@ public class AudioPlayer {
                 AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
 
         AudioFormat format = audioInputStream.getFormat();
+
+        frequency = format.getSampleRate();
 
         if(format.getSampleSizeInBits()==8){
             bitDepth = 8;
@@ -116,19 +122,16 @@ public class AudioPlayer {
         });
     }
 
-    //methods that transcribes the value from the slider
-    //into a reasonable float value input
-    //slider has a max value of 120, 20 of its units
-    //go over the default volume range
-    //the range of float values that can represent values is
-    //-80 - 6, which makes the length of the interval
-    //86. if we take the percent value of the slider
-    //aka slidervalue/120, and multiply it by the 86 float
-    //value, we get a float that represents a value in the interval
-    //to center the value, we subtract 80f
     public static void adjustVolume(Float sliderValue) {
-        float adjustedVolume = 86f * (sliderValue/120);
-        adjustedVolume -= 80f;
+        float adjustedVolume = sliderValue - 100;
+        if(adjustedVolume < 0) {
+            adjustedVolume = (float) (20 * Math.log10(Math.abs(adjustedVolume)));
+            adjustedVolume *= -1;
+        } else {
+            adjustedVolume = (float) (20 * Math.log10(adjustedVolume));
+        }
+        System.out.println(adjustedVolume);
+
         gainControl.setValue(adjustedVolume);
     }
 

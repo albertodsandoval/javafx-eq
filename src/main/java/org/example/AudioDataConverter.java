@@ -113,8 +113,9 @@ public class AudioDataConverter {
         Complex[] frequencyDomain = transformer.transform(normalizedData, TransformType.FORWARD);
 
         //here is where you would preform the amplification or diminution of the bins
+        Complex[] filteredFrequencyDomain = Filters.lowPassFilter(frequencyDomain,50000000,AudioPlayer.frequency);
 
-        Complex[] ifftResult = transformer.transform(frequencyDomain, TransformType.INVERSE);
+        Complex[] ifftResult = transformer.transform(filteredFrequencyDomain, TransformType.INVERSE);
 
         // Extract the real part of the IFFT result (time-domain signal)
         double[] timeDomainSignal = new double[ifftResult.length];
@@ -125,15 +126,6 @@ public class AudioDataConverter {
         normalizedData = timeDomainSignal;
 
         byte[] byteData = AudioDataConverter.convertToByteData16Bit(normalizedData);
-
-        // Find the min and max values manually
-        byte min = Byte.MAX_VALUE;  // Start with the largest possible byte value
-        byte max = Byte.MIN_VALUE;  // Start with the smallest possible byte value
-
-        for (byte b : byteData) {
-            if (b < min) min = b;
-            if (b > max) max = b;
-        }
 
 
         // Replace the buffer with the processed data
